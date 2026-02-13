@@ -1,5 +1,5 @@
 use sm3::{Digest, Sm3};
-use std::fs::{metadata, File};
+use std::fs::{File, metadata};
 use std::io::{Error, Read};
 use std::path::Path;
 
@@ -17,7 +17,8 @@ where
 fn calculate_sm3_hash(file_path: &str) -> Result<String, Error> {
     let mut file = File::open(file_path)?;
     let mut hasher = Sm3::new();
-    let mut bf = [0; 1024];
+    // 改成 64KB
+    let mut bf = [0u8; 64 * 1024];
     loop {
         let bytes_read = file.read(&mut bf)?;
         if bytes_read == 0 {
