@@ -1,8 +1,8 @@
+use hex;
 use sm3::{Digest, Sm3};
 use std::fs::{File, metadata};
 use std::io::{Error, Read};
 use std::path::Path;
-
 fn file_exists<P>(path: P) -> Result<bool, Error>
 where
     P: AsRef<Path>,
@@ -27,7 +27,7 @@ fn calculate_sm3_hash(file_path: &str) -> Result<String, Error> {
         hasher.update(&bf[..bytes_read]);
     }
     let result = hasher.finalize();
-    let sm3_hash = format!("{:x}", result);
+    let sm3_hash = format!("{}", hex::encode(result));
     Ok(sm3_hash)
 }
 
