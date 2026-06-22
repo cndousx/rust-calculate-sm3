@@ -1,8 +1,10 @@
 use hex;
+use indicatif::{ProgressBar, ProgressStyle};
 use sm3::{Digest, Sm3};
 use std::fs::{File, metadata};
 use std::io::{Error, Read};
 use std::path::Path;
+
 fn file_exists<P>(path: P) -> Result<bool, Error>
 where
     P: AsRef<Path>,
@@ -16,18 +18,32 @@ where
 
 fn calculate_sm3_hash(file_path: &str) -> Result<String, Error> {
     let mut file = File::open(file_path)?;
+    let total = file.metadata()?.len();
     let mut hasher = Sm3::new();
-    // 改成 64KB
+    let pb = ProgressBar::new(total);
+    pb.set_style(
+        ProgressStyle::with_template(
+            "{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] {bytes}/{total_bytes} ({percent}%) ETA:{eta}",
+        )
+        .unwrap()
+        .progress_chars("█▓▒░"),   // 更好看的块字符
+    );
+    pb.set_message(format!("{}", file_path));
     let mut bf = [0u8; 64 * 1024];
+    let mut processed: u64 = 0;
     loop {
         let bytes_read = file.read(&mut bf)?;
+
         if bytes_read == 0 {
             break;
         }
         hasher.update(&bf[..bytes_read]);
+        processed += bytes_read as u64;
+        pb.set_position(processed); // 推进进度
     }
     let result = hasher.finalize();
     let sm3_hash = format!("{}", hex::encode(result));
+    pb.finish_with_message(format!("✓ {}  →  {}", file_path, sm3_hash));
     Ok(sm3_hash)
 }
 

@@ -13,10 +13,10 @@ fn main() {
         Ok(sm3) => {
             let millis = instant.elapsed().as_millis();
             if millis < 60000 {
-                println!("Calculate SM3 Hash elapsed: {millis} ms");
+                println!("Calculate the time consumed by SM3: {millis} ms");
             } else {
                 let secs = millis / 1000;
-                println!("Calculate SM3 Hash elapsed: {secs} s");
+                println!("Calculate the time consumed by SM3: {secs} s");
             }
             println!("SM3 Hash: {sm3}")
         }
