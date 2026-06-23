@@ -22,13 +22,12 @@ fn calculate_sm3_hash(file_path: &str) -> Result<String, Error> {
     let mut hasher = Sm3::new();
     let pb = ProgressBar::new(total);
     pb.set_style(
-        ProgressStyle::with_template(
-            "{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] {bytes}/{total_bytes} ({percent}%) ETA:{eta}",
-        )
-        .unwrap()
-        .progress_chars("█▓▒░"),   // 更好看的块字符
-    );
-    pb.set_message(format!("{}", file_path));
+    ProgressStyle::with_template(
+        "[{elapsed_precise}] [{bar:40.cyan/blue}] {bytes}/{total_bytes} ({percent}%) ETA:{eta}{spinner:.green} {msg}"
+    )
+    .unwrap()
+    .progress_chars("█▓▒░"),);
+    // pb.set_message(format!("{}", file_path));
     let mut bf = [0u8; 64 * 1024];
     let mut processed: u64 = 0;
     loop {
@@ -43,7 +42,7 @@ fn calculate_sm3_hash(file_path: &str) -> Result<String, Error> {
     }
     let result = hasher.finalize();
     let sm3_hash = format!("{}", hex::encode(result));
-    pb.finish_with_message(format!("✓ {}  →  {}", file_path, sm3_hash));
+    pb.finish_with_message(format!("\r\nSM3: {}", sm3_hash));
     Ok(sm3_hash)
 }
 
