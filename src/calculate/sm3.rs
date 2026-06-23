@@ -23,10 +23,11 @@ fn calculate_sm3_hash(file_path: &str) -> Result<String, Error> {
     let pb = ProgressBar::new(total);
     pb.set_style(
     ProgressStyle::with_template(
-        "[{elapsed_precise}] [{bar:40.cyan/blue}] {bytes}/{total_bytes} ({percent}%) ETA:{eta}{spinner:.green} {msg}"
+        "{spinner:.green} [{elapsed_precise}] [{bar:40.cyan/blue}] {bytes}/{total_bytes} ({percent}%) ETA:{eta}{msg}"
     )
     .unwrap()
-    .progress_chars("█▓▒░"),);
+    .progress_chars("█▓▒░")
+    .tick_chars("⠁⠈⠐⠠⠄⠂⠃⠄⠅⠆⠇⠈⠉⠊⠋⠙⠚⠛⠜⠝⠞⠟⠠⠡⠢⠣⠤⠥⠦⠧⠨⠩⠪⠫⠬⠭⠮⠯⠰⠱⠲⠳⠴⠵⠶⠷⠸⠹⠺⠻⠼⠽⠾⠿✔"),);
     // pb.set_message(format!("{}", file_path));
     let mut bf = [0u8; 64 * 1024];
     let mut processed: u64 = 0;
