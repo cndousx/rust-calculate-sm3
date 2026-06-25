@@ -27,7 +27,7 @@ fn calculate_sm3_hash(file_path: &str) -> Result<String, Error> {
     )
     .unwrap()
     .progress_chars("█▓▒░")
-    .tick_chars("⠁⠈⠐⠠⠄⠂⠃⠄⠅⠆⠇⠈⠉⠊⠋⠙⠚⠛⠜⠝⠞⠟⠠⠡⠢⠣⠤⠥⠦⠧⠨⠩⠪⠫⠬⠭⠮⠯⠰⠱⠲⠳⠴⠵⠶⠷⠸⠹⠺⠻⠼⠽⠾⠿✔"),);
+    .tick_chars("🕛🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚"),);
     // pb.set_message(format!("{}", file_path));
     let mut bf = [0u8; 64 * 1024];
     let mut processed: u64 = 0;
