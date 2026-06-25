@@ -65,3 +65,21 @@ pub fn calculate_sm3(file_path: &str) -> Result<String, Error> {
         }
     }
 }
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn t1() {
+        // 同一个文件，release生成的可执行文件会快很多
+        //  1.4G的文件 单测和cargo run需要45秒
+        //  而relseae生成的可执行文件，只需要两三秒
+        match calculate_sm3("README.md") {
+            Ok(_) => {}
+            Err(e) => {
+                eprintln!("Error:calculate SM3 hash error! {e}");
+                return;
+            }
+        }
+    }
+}
