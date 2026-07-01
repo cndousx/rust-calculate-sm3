@@ -8,7 +8,12 @@ authors = ["dousx"]
 sm3 = "0.5.0"
 clap = { version = "4.0", features = ["derive"] }
 hex = "0.4"
-indicatif = "=0.18.4"                             # 锁定0.18.4版本，0.18.5版本进度条不显示(暂不清楚具体原因)
+# 锁定0.18.4版本，0.18.5版本进度条不显示(暂不清楚具体原因),
+# 原因：https://github.com/console-rs/indicatif/pull/808
+# 命令提示符、PowerShell 和 Windows Terminal 等原生终端通常不会设置 TERM
+# 设置临时变量 $env:TERM = "xterm"; 然后运行可以正常显示
+# issue里讨论，官方准备修复这个问题，等待下一版本
+indicatif = "=0.18.4"
 
 [profile.release]
 strip = true
