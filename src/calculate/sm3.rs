@@ -43,7 +43,7 @@ fn calculate_sm3_hash(file_path: &str) -> Result<String, Error> {
     }
     let result = hasher.finalize();
     let sm3_hash = format!("{}", hex::encode(result));
-    pb.finish_with_message(format!("\r\nSM3:{}", sm3_hash));
+    pb.finish_with_message(format!(""));
     Ok(sm3_hash)
 }
 
